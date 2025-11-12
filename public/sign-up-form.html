@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign up</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+  <style>
+    body { background: #f8f9fa; }
+    .required { color: #dc3545; }
+    .option-pill { cursor: pointer; padding: 10px 16px; border-radius: 999px; border: 1px solid #e6e6e6; }
+    .option-pill.active { background:#0d6efd;color:#fff;border-color:#0d6efd; }
+  </style>
+</head>
+<body style="padding-top:84px;">
+
+  <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-white fixed-top">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand me-2" href="/index.html">
+        <img style="height:54px;width:54px;" src="/images/aronofy logo.png" alt="Aronofy Logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="/intern.html">Internships</a></li>
+          <li class="nav-item"><a class="nav-link" href="/job.html">Jobs</a></li>
+        </ul>
+        <a class="btn btn-primary rounded-pill" href="/login.html">Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-7 col-md-9 col-12">
+
+        <!-- Role header + switch -->
+        <div class="text-center mb-3">
+          <h2 class="mb-1">Sign up as <span id="role-title" class="fw-bold">Candidate</span></h2>
+          <div id="role-switch" class="text-muted small"></div>
+        </div>
+
+        <!-- Alert -->
+        <div id="alertBox" class="alert d-none" role="alert"></div>
+
+        <!-- Unified form -->
+        <form id="signupForm" autocomplete="off" class="p-4 border rounded-3 shadow-sm bg-white">
+          <!-- First/Last Name -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="firstName" class="form-label">First Name<span class="required">*</span></label>
+              <input type="text" id="firstName" class="form-control" placeholder="First Name" required>
+              <div class="invalid-feedback">Please enter your first name.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="lastName" class="form-label">Last Name<span class="required">*</span></label>
+              <input type="text" id="lastName" class="form-control" placeholder="Last Name" required>
+              <div class="invalid-feedback">Please enter your last name.</div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="email" class="form-label">Email<span class="required">*</span></label>
+            <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
+            <div class="invalid-feedback">Enter a valid email address.</div>
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone<span class="required">*</span></label>
+            <input type="tel" id="phone" class="form-control" placeholder="+91" required>
+            <div class="invalid-feedback">Enter your phone number.</div>
+          </div>
+
+          <!-- Gender -->
+          <div class="mb-3">
+            <label class="form-label d-block">Gender<span class="required">*</span></label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" checked>
+              <label class="form-check-label" for="genderMale">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female">
+              <label class="form-check-label" for="genderFemale">Female</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" id="genderOther" value="other">
+              <label class="form-check-label" for="genderOther">Other</label>
+            </div>
+          </div>
+
+          <!-- Recruiter-only: Company -->
+          <div id="companyWrap" class="mb-3 d-none">
+            <label for="companyName" class="form-label">Company Name<span class="required">*</span></label>
+            <input type="text" id="companyName" class="form-control" placeholder="Company Name">
+            <div id="emailHint" class="form-text d-none">Use your company email for faster verification.</div>
+            <div class="invalid-feedback">Please enter your company name.</div>
+          </div>
+
+          <!-- Passwords -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <label for="password" class="form-label">Password<span class="required">*</span></label>
+              <input type="password" id="password" class="form-control" placeholder="Password" required minlength="6">
+              <div class="invalid-feedback">Password must be at least 6 characters.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="cpassword" class="form-label">Confirm Password<span class="required">*</span></label>
+              <input type="password" id="cpassword" class="form-control" placeholder="Confirm Password" required>
+              <div class="invalid-feedback">Passwords do not match.</div>
+            </div>
+          </div>
+
+          <!-- Checkboxes -->
+          <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" id="terms">
+            <label class="form-check-label" for="terms"> I agree to Terms</label>
+          </div>
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="news">
+            <label class="form-check-label" for="news"> Subscribe to updates</label>
+          </div>
+
+          <!-- Submit -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Create Account</button>
+          </div>
+
+          <p class="text-center mt-3 mb-0">
+            Already have an account? <a href="/login.html">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+  <!-- App script -->
+  <script>
+  (function () {
+    const $ = (sel, root = document) => root.querySelector(sel);
+
+    // -------- role detection & UI toggle (PLACE BEFORE submit handler) --------
+    function getRole() {
+      const params = new URLSearchParams(location.search);
+      const qRole = params.get('role');
+      const lsRole = localStorage.getItem('signUpType');
+      const role = (qRole || lsRole || 'candidate').toLowerCase();
+      return (role === 'recruiter' ? 'recruiter' : 'candidate');
+    }
+
+    const role = getRole();
+    const roleTitle = $('#role-title');
+    const companyWrap = $('#companyWrap');
+    const emailHint = $('#emailHint');
+    const alertBox = $('#alertBox');
+
+    if (roleTitle) roleTitle.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    if (companyWrap) companyWrap.classList.toggle('d-none', role !== 'recruiter');
+    if (emailHint) emailHint.classList.toggle('d-none', role !== 'recruiter');
+    const otherRole = role === 'recruiter' ? 'candidate' : 'recruiter';
+    const rs = $('#role-switch');
+    if (rs) rs.innerHTML = `Not a ${role}? <a href="?role=${otherRole}">Switch to ${otherRole}</a>`;
+
+    // -------- helpers --------
+    const FREE_DOMAINS = new Set([
+      'gmail.com','yahoo.com','outlook.com','hotmail.com','proton.me','protonmail.com',
+      'icloud.com','rediffmail.com','ymail.com','live.com','aol.com','mail.com','zoho.com'
+    ]);
+
+    function setInvalid(input, invalid, msg) {
+      if (!input) return;
+      input.classList.toggle('is-invalid', !!invalid);
+      const fb = input.nextElementSibling;
+      if (fb && fb.classList.contains('invalid-feedback') && msg) fb.textContent = msg;
+    }
+
+    function showAlert(type, msg) {
+      if (!alertBox) return;
+      alertBox.className = `alert alert-${type}`;
+      alertBox.textContent = msg;
+      alertBox.classList.remove('d-none');
+      // auto-hide for non-danger
+      if (type !== 'danger') setTimeout(() => alertBox.classList.add('d-none'), 3500);
+    }
+
+    function clearAlert() {
+      if (!alertBox) return;
+      alertBox.classList.add('d-none');
+      alertBox.textContent = '';
+    }
+
+    // -------- submit handler --------
+    async function submitSignup(e) {
+      e.preventDefault();
+      clearAlert();
+
+      const firstName = $('#firstName');
+      const lastName  = $('#lastName');
+      const emailEl   = $('#email');
+      const phone     = $('#phone');
+      const company   = $('#companyName');
+      const password  = $('#password');
+      const cpassword = $('#cpassword');
+      const genderEl  = document.querySelector('input[name="gender"]:checked');
+
+      // Basic validation
+      let ok = true;
+
+      setInvalid(firstName, !firstName.value.trim());
+      ok = ok && !!firstName.value.trim();
+
+      setInvalid(lastName, !lastName.value.trim());
+      ok = ok && !!lastName.value.trim();
+
+      const emailVal = (emailEl.value || '').trim().toLowerCase();
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+      setInvalid(emailEl, !emailValid);
+      ok = ok && emailValid;
+
+      setInvalid(phone, !phone.value.trim());
+      ok = ok && !!phone.value.trim();
+
+      if (role === 'recruiter') {
+        setInvalid(company, !company.value.trim(), 'Please enter your company name.');
+        ok = ok && !!company.value.trim();
+        const domain = emailVal.split('@')[1] || '';
+        if (FREE_DOMAINS.has(domain)) {
+          showAlert('warning', 'Recruiters should use a company email (not a free email domain).');
+        }
+      }
+
+      const passOK = password.value.length >= 6;
+      setInvalid(password, !passOK, 'Password must be at least 6 characters.');
+      ok = ok && passOK;
+
+      const passMatch = password.value === cpassword.value;
+      setInvalid(cpassword, !passMatch, 'Passwords do not match.');
+      ok = ok && passMatch;
+
+      if (!genderEl) {
+        showAlert('danger', 'Please select a gender.');
+        ok = false;
+      }
+
+      // Terms required
+      const termsChecked = $('#terms')?.checked;
+      if (!termsChecked) {
+        showAlert('danger', 'You must agree to Terms.');
+        ok = false;
+      }
+
+      if (!ok) return;
+
+      // Normalize gender
+      const g = (genderEl?.value || '').toLowerCase();
+      const gender = g === 'male' ? 'Male' : g === 'female' ? 'Female' : 'Other';
+
+      const payload = {
+        role,
+        firstName: firstName.value.trim(),
+        lastName : lastName.value.trim(),
+        email    : emailVal,
+        phone    : phone.value.trim(),
+        gender   : gender,
+        password : password.value,
+        termsAgreed : !!termsChecked,
+        newsletterSubscribed : !!($('#news')?.checked),
+        companyName : role === 'recruiter' ? (company.value.trim() || undefined) : undefined
+      };
+
+      try {
+        const res = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        // parse safe
+        let data = {};
+        try { data = await res.json(); } catch (e) { data = {}; }
+
+        if (res.status === 201) {
+          showAlert('success', 'Registered successfully! Redirecting to login…');
+          localStorage.setItem('signUpType', role); // remember for login redirect if needed
+          setTimeout(() => { location.href = '/login.html'; }, 800);
+          return;
+        }
+
+        if (res.status === 409) {
+          showAlert('warning', data?.error || 'Email already registered.');
+          setInvalid(emailEl, true, 'Email already registered.');
+          return;
+        }
+
+        if (res.status === 400 || res.status === 422) {
+          // show first validation error if present
+          if (data?.errors && Array.isArray(data.errors) && data.errors.length) {
+            const msg = data.errors.map(x => x.msg || `${x.param}: invalid`).join(', ');
+            showAlert('danger', msg);
+          } else {
+            showAlert('danger', data?.error || 'Validation failed. Check your input.');
+          }
+          return;
+        }
+
+        showAlert('danger', data?.error || 'Signup failed due to a server error.');
+      } catch (err) {
+        console.error('Signup error:', err);
+        showAlert('danger', 'Network error. Please try again.');
+      }
+    }
+
+    // attach submit
+    const form = $('#signupForm');
+    if (form) form.addEventListener('submit', submitSignup);
+
+  })();
+  </script>
+</body>
+</html>

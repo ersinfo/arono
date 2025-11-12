@@ -1,0 +1,62 @@
+  @media (max-width: 991px) { .split { flex-direction:column; } }
+    .sticky { position: sticky; top: 90px; }   
+   
+   @media (max-width: 576px) {
+     .hero-content {
+       flex-direction: column;
+       text-align: center;
+     }
+
+     .header-actions {
+       justify-content: center;
+     }
+
+     .intern-card {
+       min-width: 280px; 
+       max-width: 280px; 
+      }
+    .scroll-button {
+       width:36px;
+        height:36px;
+       }
+   }
+
+    @media (max-width:576px){
+    
+  }
+
+
+
+   @media (max-width:700px) {
+     .internship-card {
+       width: 95vw;
+       min-width: 260px;
+       margin: 0 6px 15px 6px;
+     }
+   }
+
+   @media (max-width:500px) {
+     .internship-card {
+       width: 97vw;
+       min-width: 220px;
+       padding: 14px 9px;
+     }
+   }
+
+   @media (max-width:500px) {
+     .review-card {
+       min-width: 93vw;
+     }
+   }
+
+   /* Responsive */
+   @media (max-width: 480px) {
+     .signup-container {
+       width: 97vw;
+       padding: 15px 4vw 12px 4vw;
+     }
+
+     .signup-title {
+       font-size: 1.39rem;
+     }
+   }

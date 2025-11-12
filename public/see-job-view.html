@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>See Job</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link rel="stylesheet" href="/CSS/style.css" />
+  <link rel="stylesheet" href="/CSS/media.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body { margin-top:90px; }
+    .muted-small { color:#6c757d; font-size:.95rem; }
+    .requirements-list { list-style:none; padding-left:0; }
+    .requirements-list li::before { content: "• "; color:#0d6efd; margin-right:6px; }
+    pre.debug { max-height:160px; overflow:auto; background:#f8f9fa; padding:8px; border-radius:4px; font-size:12px; }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="container my-4">
+    <div id="jobArea" class="d-none">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h2 id="jobTitle" class="mb-1"></h2>
+              <div class="text-muted" id="companyLine"></div>
+            </div>
+            <div class="text-end">
+              <div id="jobType" class="badge bg-secondary mb-2"></div>
+              <div id="jobStatus" class="small text-muted"></div>
+            </div>
+          </div>
+
+          <hr/>
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div><strong>Location</strong></div>
+              <div id="jobLocation" class="text-muted"></div>
+            </div>
+            <div class="col-md-4">
+              <div><strong>Salary</strong></div>
+              <div id="jobSalary" class="text-muted"></div>
+            </div>
+            <div class="col-md-4">
+              <div><strong>Deadline</strong></div>
+              <div id="jobDeadline" class="text-muted"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h5>Job Description</h5>
+            <div id="jobDescription" style="white-space:pre-wrap;"></div>
+          </div>
+
+          <div class="mb-3 small text-muted">Posted on <span id="postedOn"></span></div>
+
+          <div id="actionRow" class="d-flex justify-content-between align-items-center">
+            <div id="applyArea"></div>
+            <div id="messageArea" class="text-end"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+      <div class="mt-2">Loading job details...</div>
+    </div>
+
+    <div id="notFound" class="text-center text-muted d-none">
+      <h4>Job not found</h4>
+      <p>Shayad job delete ho chuki hai ya galat id hai.</p>
+      <a href="/jobs" class="btn btn-outline-primary">Back to jobs</a>
+    </div>
+
+    <div id="errorBox" class="alert alert-danger d-none"></div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script src="/JS/work.js"></script>
+  <script src="/JS/header.js"></script>
+  <script src="/JS/footer.js"></script>
+  <script src="/JS/site-header.js"></script>
+<script src="/JS/role-based-show-hide.js"></script>
+<script>
+(function(){
+  const qs = new URLSearchParams(location.search);
+  const jobId = qs.get('id') || qs.get('jobId');
+  const el = id => document.getElementById(id);
+  const show = id => el(id) && el(id).classList.remove('d-none');
+  const hide = id => el(id) && el(id).classList.add('d-none');
+  const setText = (id, txt) => { const e = el(id); if (e) e.textContent = txt == null ? '' : txt; };
+
+  const token = localStorage.getItem('token') || '';
+  let storedUser = null;
+  try { storedUser = JSON.parse(localStorage.getItem('user') || 'null'); } catch(e) { storedUser = null; }
+
+  function canApply(userRole) {
+    if (!userRole) return false;
+    userRole = String(userRole).toLowerCase();
+    return userRole === 'candidate' || userRole === 'applicant';
+  }
+
+  function formatDate(d) {
+    if (!d) return '-';
+    try { const dt = new Date(d); return isNaN(dt.getTime()) ? d : dt.toLocaleString(); } catch { return d; }
+  }
+
+  function formatSalary(job) {
+    if (!job) return '-';
+    const sr = job.salaryRange || job.salary || null;
+    if (sr && typeof sr === 'object') {
+      let min = Number(sr.min || sr.minSalary || 0) || 0;
+      let max = Number(sr.max || sr.maxSalary || 0) || 0;
+      if (min && max && min > max) { const t = min; min = max; max = t; }
+      if (min && max) return `₹${min.toLocaleString()} - ₹${max.toLocaleString()}`;
+      if (min) return `₹${min.toLocaleString()}`;
+      if (max) return `₹${max.toLocaleString()}`;
+    }
+    if (typeof job.salary === 'string') return job.salary;
+    return '-';
+  }
+
+  // render apply as full-page redirect (like internship)
+  function renderApplyButton(job) {
+    const applyArea = el('applyArea');
+    if (!applyArea) return;
+    applyArea.innerHTML = '';
+
+    const role = (storedUser && storedUser.role) || localStorage.getItem('role') || '';
+
+    if (!token && !role) {
+      const a = document.createElement('a');
+      a.href = '/login.html?next=' + encodeURIComponent(location.pathname + location.search);
+      a.className = 'btn btn-primary';
+      a.textContent = 'Login to Apply';
+      applyArea.appendChild(a);
+      return;
+    }
+
+    if (role && !canApply(role)) {
+      const span = document.createElement('div');
+      span.className = 'text-muted';
+      span.textContent = 'Only candidates may apply for this job.';
+      applyArea.appendChild(span);
+      return;
+    }
+
+    const a = document.createElement('a');
+    a.className = 'btn btn-success';
+    a.id = 'applyBtn';
+    a.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Apply Now';
+    a.href = '/apply-job.html?id=' + encodeURIComponent(job._id || job.id || jobId || '');
+    applyArea.appendChild(a);
+  }
+
+  function showError(msg) {
+    const box = el('errorBox');
+    if (!box) { alert(msg || 'Something went wrong'); return; }
+    box.textContent = msg || 'Something went wrong';
+    box.classList.remove('d-none');
+    setTimeout(()=> box.classList.add('d-none'), 8000);
+  }
+
+  // robust fetch: try /api/jobs/:id then /api/jobs?id=
+  async function fetchJob(id) {
+    if (!id) throw new Error('Missing id');
+    id = String(id).trim();
+    const normalizedId = id.replace(/^"|"$/g,'');
+
+    const attempts = [
+      '/api/jobs/' + encodeURIComponent(normalizedId),
+      '/api/jobs?id=' + encodeURIComponent(normalizedId)
+    ];
+
+    let lastErr = null;
+    for (const url of attempts) {
+      try {
+        const r = await fetch(url, { cache: 'no-store', credentials: 'same-origin' });
+        const txt = await r.text().catch(()=>null);
+
+        if (r.status === 404) { lastErr = new Error('404 from ' + url); continue; }
+        if (r.status === 401 || r.status === 403) { throw new Error('Unauthorized (' + r.status + ')'); }
+        if (!r.ok) { throw new Error('Bad response ' + r.status + (txt ? (': '+txt.slice(0,200)) : '')); }
+
+        let data = null;
+        try { data = txt ? JSON.parse(txt) : null; } catch(e) { throw new Error('Invalid JSON from ' + url); }
+
+        if (Array.isArray(data)) {
+          const found = data.find(item => {
+            if (!item) return false;
+            const a = String(item._id || item.id || '').replace(/^"|"$/g,'');
+            return a === normalizedId || a.toLowerCase() === normalizedId.toLowerCase();
+          });
+          if (found) { if (!found._id && found.id) found._id = found.id; return found; }
+          lastErr = new Error('Item not found in array from ' + url);
+          continue;
+        }
+
+        const job = (data && (data.job || data)) || null;
+        if (!job || (typeof job === 'object' && Object.keys(job).length === 0)) {
+          lastErr = new Error('Empty job object from ' + url);
+          continue;
+        }
+        if (!job._id && job.id) job._id = job.id;
+        return job;
+
+      } catch (err) {
+        lastErr = err;
+        // try next
+      }
+    }
+    throw lastErr || new Error('All endpoints failed');
+  }
+
+  (async function init(){
+    if (!jobId) {
+      hide('loading');
+      show('notFound');
+      return;
+    }
+    try {
+      const job = await fetchJob(jobId);
+      hide('loading');
+      if (!job) { show('notFound'); return; }
+
+      setText('jobTitle', job.title || 'No title');
+      setText('companyLine', (job.company || '') + (job.company && job.location ? ' • ' : '') + (job.location || ''));
+      setText('jobType', job.jobType || job.job_type || '');
+      setText('jobStatus', job.isActive ? 'Active' : 'Closed');
+      setText('jobLocation', job.location || '-');
+      setText('jobSalary', formatSalary(job));
+      setText('jobDeadline', job.applicationDeadline ? formatDate(job.applicationDeadline) : (job.deadlineString || '-'));
+      el('jobDescription').textContent = job.description || '-';
+      setText('postedOn', formatDate(job.createdAt || job.postedDate || job.posted_at));
+
+      show('jobArea');
+      renderApplyButton(job);
+
+    } catch (err) {
+      console.error('Load job error', err);
+      hide('loading');
+      showError('Could not load job. Try again later.');
+    }
+  })();
+})();
+</script>
+</body>
+</html>

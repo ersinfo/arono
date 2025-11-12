@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aronofy</title>
+ <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link rel="stylesheet" href="/CSS/style.css" />
+  <link rel="stylesheet" href="/CSS/media.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+<body style="margin-top: 93px;">
+
+     <div id="header"></div>
+
+    <main class="container">
+  <div id="statusArea" class="mb-3"></div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <h5 id="title" class="card-title">Application Detail</h5>
+          <div id="meta" class="mb-3 text-muted"></div>
+
+          <div id="readonlyFields" class="mb-3">
+            <!-- readonly rows inserted here -->
+          </div>
+
+          <h6>Form Data</h6>
+          <div id="formDataContainer" class="mb-3">
+            <!-- JSON / structured form data -->
+          </div>
+
+          <div class="d-flex gap-2">
+            <button id="acceptBtn" class="btn btn-success">Accept</button>
+            <button id="rejectBtn" class="btn btn-danger">Reject</button>
+            <a id="resumeLink" class="btn btn-outline-primary" target="_blank" style="display:none;">Open Resume</a>
+            <a id="backBtn" class="btn btn-secondary ms-auto" href="/received-applications.html">Back</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="log" class="text-muted small"></div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="mb-3">Application Status</h6>
+          <p><strong>Status: </strong><span id="statusBadge" class="badge bg-secondary">-</span></p>
+          <p><strong>Applied At:</strong> <br/><span id="appliedAt" class="text-muted"></span></p>
+          <hr/>
+          <p class="mb-1"><strong>Internship</strong></p>
+          <p id="internshipInfo" class="small text-muted"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+      <div id="footer"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+  </script>
+  <script src="/JS/work.js"></script>
+  <script src="/JS/header.js"></script>
+  <script src="/JS/footer.js"></script>
+  <script src="/JS/site-header.js" ></script>
+    <script src="/JS/role-based-show-hide.js"></script>
+
+    <script>
+(async function(){
+  // Helpers
+  function qs(param) {
+    return new URLSearchParams(window.location.search).get(param);
+  }
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+  function setLog(msg){ document.getElementById('log').innerText = msg || ''; }
+  function showStatus(type, text){
+    const area = document.getElementById('statusArea');
+    area.innerHTML = `<div class="alert alert-${type}" role="alert">${escapeHtml(text)}</div>`;
+    setTimeout(()=> area.innerHTML = '', 4000);
+  }
+
+  const token = localStorage.getItem('token') || '';
+  const headers = { 'Accept': 'application/json' };
+  if (token) headers['Authorization'] = 'Bearer ' + token;
+
+  const appId = qs('id') || qs('appId') || qs('appid');
+  if (!appId) {
+    document.getElementById('readonlyFields').innerHTML = '<div class="alert alert-warning">Application id missing in URL. Use ?id=&lt;applicationId&gt;</div>';
+    return;
+  }
+
+  // Elements
+  const acceptBtn = document.getElementById('acceptBtn');
+  const rejectBtn = document.getElementById('rejectBtn');
+  const resumeLink = document.getElementById('resumeLink');
+  const statusBadge = document.getElementById('statusBadge');
+  const appliedAtEl = document.getElementById('appliedAt');
+  const internshipInfo = document.getElementById('internshipInfo');
+  const titleEl = document.getElementById('title');
+  const metaEl = document.getElementById('meta');
+
+  async function fetchApplication() {
+    setLog('Fetching application...');
+    try {
+      const res = await fetch('/api/application/internship/' + encodeURIComponent(appId), { headers });
+      if (!res.ok) {
+        const txt = await res.text();
+        setLog('Fetch failed: ' + res.status + ' ' + txt);
+        return showStatus('danger', 'Failed to load application: ' + (txt || res.status));
+      }
+      const json = await res.json();
+      const app = json.application || json;
+      renderApplication(app);
+      setLog('Loaded');
+    } catch (err) {
+      console.error(err);
+      setLog('Error fetching application');
+      showStatus('danger', 'Error fetching application');
+    }
+  }
+
+  function renderApplication(app) {
+    titleEl.textContent = app.internship?.title || 'Application Detail';
+    metaEl.innerHTML = `<small class="text-muted">${escapeHtml(app.internship?.company || app.recruiterName || '')}</small>`;
+
+    // readonly fields list
+    const rows = [
+      ['Candidate Name', app.candidateName || (app.candidate && app.candidate.fullName) || ''],
+      ['Candidate Profile ID', app.candidate?._id || (app.candidate && app.candidate._id) || ''],
+      ['Candidate User ID', app.candidate && app.candidate.user || ''],
+      ['Email', (app.candidate && app.candidate.email) || ''],
+      ['Phone', (app.candidate && app.candidate.phone) || ''],
+      ['Experience (years)', app.experienceYears || ''],
+      ['Status', app.status || ''],
+      ['Resume URL', app.resumeUrl || '']
+    ];
+    const container = document.getElementById('readonlyFields');
+    container.innerHTML = '';
+    rows.forEach(([label, val])=>{
+      const div = document.createElement('div');
+      div.className = 'readonly-row';
+      div.innerHTML = `<div class="readonly-label small">${escapeHtml(label)}</div><div class="form-control-plaintext">${escapeHtml(val)}</div>`;
+      container.appendChild(div);
+    });
+
+    // applied at and status badge
+    statusBadge.textContent = app.status || '-';
+    statusBadge.className = 'badge ' + statusClass(app.status);
+    appliedAtEl.textContent = app.appliedAt ? new Date(app.appliedAt).toLocaleString() : (app.createdAt ? new Date(app.createdAt).toLocaleString() : '');
+
+    // internship summary
+    internshipInfo.innerHTML = escapeHtml((app.internship && app.internship.title ? app.internship.title + ' - ' : '') + (app.internship && app.internship.location ? app.internship.location : ''));
+
+    // resume link
+    if (app.resumeUrl) {
+      resumeLink.href = app.resumeUrl;
+      resumeLink.style.display = 'inline-block';
+    } else resumeLink.style.display = 'none';
+
+    // form data / extra
+    const formDataContainer = document.getElementById('formDataContainer');
+    const formData = app.formData || app.form || null;
+    if (formData && typeof formData === 'object') {
+      formDataContainer.innerHTML = '<pre class="formdata">' + escapeHtml(JSON.stringify(formData, null, 2)) + '</pre>';
+    } else if (app.additionalData) {
+      formDataContainer.innerHTML = '<pre class="formdata">' + escapeHtml(JSON.stringify(app.additionalData, null, 2)) + '</pre>';
+    } else {
+      formDataContainer.innerHTML = '<div class="text-muted small">No additional form data provided.</div>';
+    }
+
+    // disable buttons if already accepted/rejected
+    if (['accepted','rejected'].includes((app.status||'').toLowerCase())) {
+      disableActionButtons(true);
+    } else {
+      disableActionButtons(false);
+    }
+
+    // store current app for handlers
+    window.__CURRENT_APPLICATION = app;
+  }
+
+  function statusClass(st) {
+    switch((st||'').toLowerCase()){
+      case 'applied': return 'bg-primary text-white';
+      case 'reviewed': return 'bg-info text-white';
+      case 'accepted': return 'bg-success text-white';
+      case 'rejected': return 'bg-danger text-white';
+      default: return 'bg-secondary text-white';
+    }
+  }
+
+  function disableActionButtons(v){
+    if (v) {
+      acceptBtn.classList.add('disabled-btn'); acceptBtn.disabled = true;
+      rejectBtn.classList.add('disabled-btn'); rejectBtn.disabled = true;
+    } else {
+      acceptBtn.classList.remove('disabled-btn'); acceptBtn.disabled = false;
+      rejectBtn.classList.remove('disabled-btn'); rejectBtn.disabled = false;
+    }
+  }
+
+  async function updateStatus(status) {
+    try {
+      disableActionButtons(true);
+      setLog('Updating status to ' + status + '...');
+      const res = await fetch('/api/application/internship/' + encodeURIComponent(appId) + '/status', {
+        method: 'PUT',
+        headers: Object.assign({'Content-Type':'application/json'}, headers),
+        body: JSON.stringify({ status })
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        setLog('Update failed: ' + res.status + ' ' + txt);
+        showStatus('danger', 'Status update failed: ' + (txt || res.status));
+        disableActionButtons(false);
+        return;
+      }
+      const body = await res.json();
+      // update UI locally
+      const app = window.__CURRENT_APPLICATION || {};
+      app.status = status;
+      renderApplication(app);
+      showStatus('success', 'Status updated to ' + status);
+      setLog('Updated');
+    } catch (err) {
+      console.error(err);
+      showStatus('danger', 'Error updating status');
+      disableActionButtons(false);
+    }
+  }
+
+  // attach handlers
+  acceptBtn.addEventListener('click', ()=> updateStatus('accepted'));
+  rejectBtn.addEventListener('click', ()=> updateStatus('rejected'));
+
+  // initial fetch
+  fetchApplication();
+
+})();
+</script>
+
+</body>
+</html>

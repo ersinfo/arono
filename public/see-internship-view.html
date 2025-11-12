@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>See Internship</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link rel="stylesheet" href="/CSS/style.css" />
+  <link rel="stylesheet" href="/CSS/media.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    .muted-small { color: #6c757d; font-size: .95rem; }
+    .requirements-list { list-style:none; padding-left:0; }
+    .requirements-list li::before { content: "• "; color:#0d6efd; margin-right:6px; }
+  </style>
+</head>
+<body style="margin-top:90px;">
+  <div id="header"></div>
+
+  <main class="container my-4">
+    <!-- Internship card -->
+    <div id="internshipArea" class="d-none">
+      <div class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h2 id="internshipTitle" class="mb-1"></h2>
+              <div class="text-muted" id="companyLine"></div>
+            </div>
+
+            <div class="text-end">
+              <div id="internshipType" class="badge bg-secondary mb-2"></div>
+              <div id="internshipStatus" class="small text-muted"></div>
+            </div>
+          </div>
+
+          <hr />
+
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <div><strong>Location</strong></div>
+              <div id="internshipLocation" class="text-muted"></div>
+            </div>
+            <div class="col-md-4">
+              <div><strong>Stipend</strong></div>
+              <div id="internshipSalary" class="text-muted"></div>
+            </div>
+            <div class="col-md-4">
+              <div><strong>Deadline</strong></div>
+              <div id="internshipDeadline" class="text-muted"></div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h5>Internship Description</h5>
+            <div id="internshipDescription" style="white-space:pre-wrap;"></div>
+          </div>
+
+          <div class="mb-3">
+            <h6>Requirements</h6>
+            <ul id="requirementsList" class="requirements-list"></ul>
+          </div>
+
+          <div class="mb-3 small text-muted">Posted on <span id="postedOn"></span></div>
+
+          <div id="actionRow" class="d-flex justify-content-between align-items-center">
+            <div id="applyArea"></div>
+            <div id="messageArea" class="text-end"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center py-5">
+      <div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>
+      <div class="mt-2">Loading internship details...</div>
+    </div>
+
+    <!-- Not found -->
+    <div id="notFound" class="text-center text-muted d-none">
+      <h4>Internship not found</h4>
+      <p>Shayad internship delete ho chuki hai ya galat id hai.</p>
+      <a href="/internships" class="btn btn-outline-primary">Back to internships</a>
+    </div>
+
+    <!-- Error -->
+    <div id="errorBox" class="alert alert-danger d-none"></div>
+  </main>
+
+  <div id="footer"></div>
+
+  <!-- Apply Modal (collect candidate info then POST to server) -->
+  <!-- <div class="modal fade" id="applyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form id="applyForm" class="needs-validation" novalidate>
+          <div class="modal-header">
+            <h5 class="modal-title">Apply for Internship</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Your name <span class="text-danger">*</span></label>
+              <input id="applicantName" class="form-control" required />
+              <div class="invalid-feedback">Name is required</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Your email <span class="text-danger">*</span></label>
+              <input id="applicantEmail" type="email" class="form-control" required />
+              <div class="invalid-feedback">Valid email is required</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Resume link (optional)</label>
+              <input id="applicantResume" class="form-control" placeholder="https://drive.google.com/..." />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Message (optional)</label>
+              <textarea id="applicantMessage" rows="3" class="form-control"></textarea>
+            </div>
+
+            <div class="alert alert-info small">
+              Application will be sent to the server. If you prefer email, close and use the share button.
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button id="submitApplyBtn" type="submit" class="btn btn-primary">Submit Application</button>
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script src="/JS/work.js"></script>
+  <script src="/JS/header.js"></script>
+  <script src="/JS/footer.js"></script>
+  <script src="/JS/site-header.js"></script>
+<script src="/JS/role-based-show-hide.js"></script>
+ <script>
+(function () {
+  // small helpers
+  const $ = id => document.getElementById(id);
+  const show = id => $(id)?.classList.remove('d-none');
+  const hide = id => $(id)?.classList.add('d-none');
+  const setText = (id, txt) => { const e = $(id); if (e) e.textContent = txt == null ? '' : txt; };
+  const safeJson = async (res) => {
+    const t = await res.text().catch(()=> '');
+    try { return t ? JSON.parse(t) : null; } catch { return { _raw: t }; }
+  };
+
+  // read id from ?id= or ?jobId= (compat)
+  const params = new URLSearchParams(window.location.search);
+  const internshipId = params.get('id') || params.get('jobId');
+
+  const token = localStorage.getItem('token') || '';
+  let storedUser = null;
+  try { storedUser = JSON.parse(localStorage.getItem('user') || 'null'); } catch {}
+
+  // NO modal initialization — we DON'T want modal
+  // const applyModalEl = $('#applyModal');  // if this exists in DOM it's ignored
+  // DO NOT call new bootstrap.Modal(...)
+
+  // fetch internship: try /api/internships/:id then fallback to /api/internships?id=
+  async function fetchInternship(id) {
+    if (!id) return null;
+    try {
+      const res = await fetch('/api/internships/' + encodeURIComponent(id), { cache: 'no-store' });
+      if (res.ok) return await res.json();
+      if (res.status !== 404) { /* continue fallback */ } else return null;
+    } catch (e) { /* ignore, try fallback */ }
+    try {
+      const res2 = await fetch('/api/internships?id=' + encodeURIComponent(id), { cache: 'no-store' });
+      if (!res2.ok) {
+        if (res2.status === 404) return null;
+        throw new Error('Failed to load');
+      }
+      return await res2.json();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  function formatDate(d) {
+    if (!d) return '-';
+    try {
+      const dt = new Date(d);
+      if (isNaN(dt.getTime())) return d;
+      return dt.toLocaleString();
+    } catch { return d; }
+  }
+
+  // render apply button / login prompt
+  function canApply(role) {
+    if (!role) return false;
+    role = String(role).toLowerCase();
+    return role === 'candidate' || role === 'applicant';
+  }
+
+  function renderApplyArea(intern) {
+    const applyArea = $('applyArea');
+    if (!applyArea) return;
+    applyArea.innerHTML = '';
+
+    const role = (storedUser && storedUser.role) || localStorage.getItem('role') || '';
+
+    if (!token) {
+      // show login CTA
+      const a = document.createElement('a');
+      a.href = '/login.html?next=' + encodeURIComponent(location.pathname + location.search);
+      a.className = 'btn btn-primary';
+      a.textContent = 'Login to Apply';
+      applyArea.appendChild(a);
+      return;
+    }
+
+    if (!canApply(role)) {
+      const span = document.createElement('div');
+      span.className = 'text-muted';
+      span.textContent = 'Only candidates may apply for this internship.';
+      applyArea.appendChild(span);
+      return;
+    }
+
+    // Create a link/button that navigates to a full-page application form
+    const a = document.createElement('a');
+    a.className = 'btn btn-success';
+    a.id = 'applyBtn';
+    a.innerHTML = '<i class="fa fa-paper-plane me-1"></i> Apply Now';
+    // navigate to apply page (you should create /apply-internship.html to accept applications)
+    a.href = '/apply-internship.html?id=' + encodeURIComponent(internshipId || '');
+    applyArea.appendChild(a);
+  }
+
+  // show error
+  function showError(msg) {
+    const box = $('errorBox');
+    if (!box) { alert(msg || 'Something went wrong'); return; }
+    box.textContent = msg || 'Something went wrong';
+    box.classList.remove('d-none');
+    setTimeout(() => box.classList.add('d-none'), 8000);
+  }
+
+  // bind apply form ONLY if it's present on the current page (i.e., on apply-internship.html)
+  (function bindApplyForm() {
+    const applyForm = document.getElementById('applyForm');
+    if (!applyForm) return; // this page doesn't have the form — fine
+    applyForm.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      if (!applyForm.checkValidity()) {
+        applyForm.classList.add('was-validated');
+        return;
+      }
+      const submitBtn = document.getElementById('submitApplyBtn');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting...'; }
+
+      const payload = {
+        name: document.getElementById('applicantName').value.trim(),
+        email: document.getElementById('applicantEmail').value.trim(),
+        resume: document.getElementById('applicantResume').value.trim(),
+        message: document.getElementById('applicantMessage').value.trim(),
+      };
+
+      try {
+        if (!internshipId) throw new Error('Missing internship id');
+        const url = '/api/internships/' + encodeURIComponent(internshipId) + '/apply';
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = 'Bearer ' + token;
+
+        const res = await fetch(url, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(payload)
+        });
+
+        const data = await safeJson(res);
+
+        if (res.status === 401) {
+          location.href = '/login.html?next=' + encodeURIComponent(location.pathname + location.search);
+          return;
+        }
+
+        if (!res.ok) {
+          const msg = (data && (data.error || data.message)) || ('Apply failed: ' + res.status);
+          showError(msg);
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Application'; }
+          return;
+        }
+
+        // success — navigate or show success message
+        const msgArea = $('messageArea');
+        if (msgArea) msgArea.innerHTML = '<div class="text-success">Application submitted successfully.</div>';
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitted'; }
+      } catch (err) {
+        console.error('Apply error', err);
+        showError(err.message || 'Failed to apply');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit Application'; }
+      }
+    });
+  })();
+
+  // main init
+  (async function init() {
+    if (!internshipId) {
+      hide('loading');
+      show('notFound');
+      return;
+    }
+
+    try {
+      const intern = await fetchInternship(internshipId);
+      hide('loading');
+      if (!intern) {
+        show('notFound');
+        return;
+      }
+
+      setText('internshipTitle', intern.title || 'No title');
+      setText('companyLine', (intern.company || '') + (intern.company && intern.location ? ' • ' : '') + (intern.location || ''));
+      setText('internshipType', intern.internshipType || (intern.jobType || 'Internship'));
+      setText('internshipStatus', intern.isActive ? 'Active' : 'Closed');
+
+      // stipend: prefer stipend, else salaryRange
+      let stipendText = '-';
+      if (intern.stipend) stipendText = intern.stipend;
+      else if (intern.salaryRange && (intern.salaryRange.min || intern.salaryRange.max)) {
+        const mn = intern.salaryRange.min ? '₹' + intern.salaryRange.min : '';
+        const mx = intern.salaryRange.max ? ' - ₹' + intern.salaryRange.max : '';
+        stipendText = (mn || mx) ? (mn + mx) : '-';
+      } else if (intern.salary) stipendText = intern.salary;
+      setText('internshipSalary', stipendText);
+
+      const dl = intern.applicationDeadline || intern.deadline || intern.deadlineAt;
+      setText('internshipDeadline', dl ? formatDate(dl) : '-');
+
+      const descEl = $('internshipDescription');
+      if (descEl) descEl.textContent = intern.description || '-';
+
+      const reqList = $('requirementsList');
+      if (reqList) {
+        reqList.innerHTML = '';
+        const reqs = intern.requirements || [];
+        if (reqs.length) {
+          reqs.forEach(r => {
+            const li = document.createElement('li');
+            li.textContent = r;
+            reqList.appendChild(li);
+          });
+        } else {
+          reqList.innerHTML = '<li class="text-muted">No specific requirements listed.</li>';
+        }
+      }
+
+      setText('internshipLocation', intern.location || '-');
+      setText('postedOn', formatDate(intern.createdAt || intern.createdAtAt || intern.postedAt));
+
+      show('internshipArea');
+      renderApplyArea(intern);
+
+    } catch (err) {
+      console.error('Load internship error', err);
+      hide('loading');
+      showError('Could not load internship. Try again later.');
+    }
+  })();
+
+})();
+</script>
+
+</body>
+</html>

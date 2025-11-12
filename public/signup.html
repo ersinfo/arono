@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+<link rel="icon" href="/images/aronofy logo.png" type="image/png">
+    <link rel="stylesheet" href="/CSS/style.css">
+  <link rel="stylesheet" href="/CSS/media.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-white fixed-top">
+    <div class="container-fluid px-3">
+      <!-- Row: Logo, Search Bar, Toggler (Always in one line) -->
+      <div class="d-flex align-items-center w-100 mx-5">
+        <!-- Logo -->
+        <a class="navbar-brand me-2" href="index.html">
+          <img style="height:54px;width:54px;" src="/images/aronofy logo.png" alt="Aronofy Logo">
+        </a>
+        <!-- Search Bar -->
+        <!-- <div class="flex-grow-1 mx-2">
+          <div class="input-group ">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" style="width: 786px;">
+              <button class="btn btn-outline-danger rounded-pill" type="submit">Search</button>
+            </form>
+          </div>
+        </div> -->
+
+
+        <!-- Navbar Toggler (Mobile) -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <!-- Collapsible Menu & Login Button -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav d-flex gap-3 ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link active px-3" href="/intern.html">Internships</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="/job.html">Jobs</a>
+          </li>
+          <!-- <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Competitions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Mentorships</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Practice</a>
+                    </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle px-3" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              More
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+              <li><a class="dropdown-item" href="#">Option 1</a></li>
+              <li><a class="dropdown-item" href="#">Option 2</a></li>
+            </ul>
+          </li>
+        </ul>
+        <!-- <div class="d-flex align-items-center me-5">
+            <a href="login.html"><button class="btn btn-primary rounded-pill" type="button">Login</button></a>
+        </div> -->
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container">
+  <h1>Create a new account</h1>
+  <div class="subtitle">
+    Join Unstop and find your dream job or recruit talented candidates
+  </div>
+  <div class="option-list">
+    <!-- Candidate Option -->
+    <div class="option-item selected" id="candidate">
+      <span class="option-icon">&#128100;</span>
+      <div>
+        <div class="option-title">Sign up as a Candidate</div>
+        <div class="option-desc">Compete, learn, and apply for jobs and internships</div>
+      </div>
+      <span class="checkmark">&#10003;</span>
+    </div>
+    <!-- Recruiter Option -->
+    <div class="option-item" id="recruiter">
+      <span class="option-icon">&#128269;</span>
+      <div>
+        <div class="option-title">Sign up as a Recruiter</div>
+        <div class="option-desc">Host competitions, hire talent, and offer career opportunities</div>
+      </div>
+      <span class="checkmark">&#10003;</span>
+    </div>
+  </div>
+  <div class="footer-row">
+    <span>Already have an account? <a href="/login.html" class="login-link">Login</a></span>
+    <button  id="next-btn" class="next-btn">Next</button>
+  </div>
+</div>
+
+ 
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+       <!-- <script>
+  // Switch between Candidate and Recruiter
+  const candidate = document.getElementById('candidate');
+  const recruiter = document.getElementById('recruiter');
+  const nextBtn = document.getElementById('next-btn');
+  let selectedOption = 'candidate'; // Default selected option
+
+  candidate.onclick = function() {
+    candidate.classList.add('selected');
+    recruiter.classList.remove('selected');
+    selectedOption = 'candidate';
+  };
+
+  recruiter.onclick = function() {
+    recruiter.classList.add('selected');
+    candidate.classList.remove('selected');
+    selectedOption = 'recruiter';
+  };
+
+  nextBtn.onclick = function() {
+    // Store the selected option in localStorage or pass as URL parameter to the next page
+    localStorage.setItem('signUpType', selectedOption);
+    window.location.href = '/sign-up-form.html';  // Redirect to form page
+  };
+</script> -->
+
+<script>
+
+  let selectedOption = 'Candidate';
+  
+  const candidate = document.getElementById('candidate');
+  const recruiter = document.getElementById('recruiter');
+  const nextBtn = document.getElementById('next-btn');
+  
+
+  candidate.onclick = function() {
+    candidate.classList.add('selected');
+    recruiter.classList.remove('selected');
+    selectedOption = 'Candidate';
+  };
+  recruiter.onclick = function() {
+    recruiter.classList.add('selected');
+    candidate.classList.remove('selected');
+    selectedOption = 'Recruiter';
+  };
+  nextBtn.onclick = function() {
+    localStorage.setItem('signUpType', selectedOption.toLowerCase());
+    window.location.href = '/sign-up-form.html';
+  };
+</script>
+
+</html>

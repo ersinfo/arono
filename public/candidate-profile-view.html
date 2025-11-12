@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Candidate Profile</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/CSS/style.css" />
+  <style>
+    :root{ --card-radius:12px; --muted:#6c757d; --max-width:1100px; }
+    body { padding-top:92px; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial; background:#f8f9fa; }
+    main.container { max-width: var(--max-width); }
+    .card { border-radius: var(--card-radius); }
+    #candidatePhoto { width:100%; height:auto; max-height:220px; object-fit:contain; border-radius:8px; }
+    h4#candidateName { font-weight:600; margin-bottom:.25rem; font-size:1.25rem; }
+    .meta { font-size:.95rem; color:var(--muted); margin-bottom:.6rem; word-break:break-word; }
+    .info-row strong { display:block; font-weight:600; margin-bottom:.25rem; }
+    .info-value { color:#212529; word-break:break-word; }
+    .action-row { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+    #emptyState { margin-top:1rem; }
+    @media (max-width:767.98px) { main.container { padding-left:.75rem; padding-right:.75rem; } }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <main class="container py-4">
+    <div class="d-flex align-items-center mb-3">
+      <h3 class="mb-0">My Profile</h3>
+      <span id="profileStatus" class="badge ms-3"></span>
+      <div class="ms-auto">
+        <a id="editBtn" href="/candidate-profile.html?edit=1" class="btn btn-primary btn-sm">Edit Profile</a>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-12 col-md-4 text-center">
+            <img id="candidatePhoto" src="https://placehold.co/360x240?text=No+Photo" alt="Candidate Photo" class="img-fluid rounded border p-1 bg-white">
+            <div class="mt-2 meta small">
+              <div id="candidateDesignation">—</div>
+              <div id="candidateLocation">—</div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-8">
+            <h4 id="candidateName">—</h4>
+            <div class="meta mb-3 small">
+              <span id="candidateExperience">—</span>
+              <span class="mx-2">•</span>
+              <span id="candidateDob">—</span>
+            </div>
+
+            <div class="row info-columns mb-3">
+              <div class="col-12 col-sm-6 info-row">
+                <strong>Contact</strong>
+                <div class="info-value">
+                  <span id="candidateEmail">—</span>
+                  <span class="mx-2 d-none d-sm-inline">|</span>
+                  <span id="candidatePhone">—</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-sm-6 info-row">
+                <strong>Education</strong>
+                <div id="candidateEducation" class="info-value">—</div>
+              </div>
+
+              <div class="col-12 info-row">
+                <strong>Skills</strong>
+                <div id="candidateSkills" class="info-value">—</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <strong>LinkedIn</strong>
+              <div class="mt-1">
+                <a id="candidateLinkedin" href="#" target="_blank" rel="noopener" class="d-inline-block text-truncate" style="max-width:100%;">—</a>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <strong>Resume</strong>
+              <div class="mt-2 action-row">
+                <div id="candidateResume">—</div>
+                <a id="downloadResumeBtn" class="btn btn-outline-primary btn-sm d-none" target="_blank" rel="noopener">View Resume</a>
+                <a id="downloadPdfBtn" class="btn btn-outline-secondary btn-sm d-none" target="_blank" rel="noopener">Download</a>
+              </div>
+            </div>
+
+            <div class="text-muted small mt-3">
+              <span>Last updated: <span id="updatedAt">—</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="emptyState" class="alert alert-warning mt-3 d-none">
+      Profile not found. Please complete your profile first.
+      <a href="/candidate-profile.html" class="alert-link">Go to Profile Form →</a>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script src="/JS/work.js"></script>
+  <script src="/JS/header.js"></script>
+  <script src="/JS/footer.js"></script>
+  <script src="/JS/site-header.js"></script>
+  <script src="/JS/auth-gate.js"></script>
+  <script src="/JS/candidate-profile-view.js" defer></script>
+  <script src="/JS/role-based-show-hide.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up as Candidate </title>
+<link rel="icon" href="/images/aronofy logo.png" type="image/png">
+<link rel="stylesheet" href="/CSS/style.css">
+  <link rel="stylesheet" href="/CSS/media.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+
+
+     <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-white fixed-top">
+    <div class="container-fluid px-3">
+      <!-- Row: Logo, Search Bar, Toggler (Always in one line) -->
+      <div class="d-flex align-items-center w-100 mx-5">
+        <!-- Logo -->
+        <a class="navbar-brand me-2" href="index.html">
+          <img style="height:54px;width:54px;" src="/images/aronofy logo.png" alt="Aronofy Logo">
+        </a>
+        <!-- Search Bar -->
+        <!-- <div class="flex-grow-1 mx-2">
+          <div class="input-group ">
+            <form class="d-flex" role="search">
+              <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" style="width: 786px;">
+              <button class="btn btn-outline-danger rounded-pill" type="submit">Search</button>
+            </form>
+          </div>
+        </div> -->
+
+
+        <!-- Navbar Toggler (Mobile) -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <!-- Collapsible Menu & Login Button -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav d-flex gap-3 ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item">
+            <a class="nav-link active px-3" href="/intern.html">Internships</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link px-3" href="/job.html">Jobs</a>
+          </li>
+          <!-- <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Competitions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Mentorships</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3" href="#">Practice</a>
+                    </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle px-3" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              More
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+              <li><a class="dropdown-item" href="#">Option 1</a></li>
+              <li><a class="dropdown-item" href="#">Option 2</a></li>
+            </ul>
+          </li>
+        </ul>
+        <!-- <div class="d-flex align-items-center me-5">
+            <a href="login.html"><button class="btn btn-primary rounded-pill" type="button">Login</button></a>
+        </div> -->
+      </div>
+    </div>
+  </nav>
+
+  <div class="recru-body">
+  <div class="signup-container">
+    <div class="signup-title">Sign up as Candidate </div>
+    <form autocomplete="off">
+      <div class="form-row">
+        <div style="flex:1;">
+          <label>First Name<span class="required">*</span></label>
+          <input type="text" placeholder="First Name" required>
+        </div>
+        <div style="flex:1;">
+          <label>Last Name<span class="required">*</span></label>
+          <input type="text" placeholder="Last Name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Organisation Email<span class="required">*</span></label>
+        <input type="email" style="width:100%;" placeholder="Official Email" required>
+      </div>
+      <div class="form-group">
+        <label>Phone<span class="required">*</span></label>
+        <input type="tel" style="width:100%;" placeholder="+91" required>
+      </div>
+      <div class="form-group">
+        <label>Gender<span class="required">*</span></label>
+        <div class="gender-group">
+          <label class="gender-radio selected" id="gender-male">
+            <input type="radio" name="gender" checked>
+            Male
+          </label>
+          <label class="gender-radio" id="gender-female">
+            <input type="radio" name="gender">
+            Female
+          </label>
+          <label class="gender-radio" id="gender-other">
+            <input type="radio" name="gender">
+            More Options
+          </label>
+        </div>
+      </div>
+      <div class="form-row-password">
+        <div style="flex:1; position: relative;">
+          <label>Password<span class="required">*</span></label>
+          <input type="password" placeholder="" required>
+          <!-- Eye icon (decorative only) -->
+        </div>
+        <div style="flex:1;">
+          <label>Confirm Password<span class="required">*</span></label>
+          <input type="password" placeholder="" required>
+        </div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox">
+        All your information is collected, stored and processed as per our data processing guidelines.
+        By signing up on Unstop, you agree to our
+        <a href="#">Privacy Policy</a> and <a href="#">Terms of Use</a>
+        <br>
+        <input type="checkbox">
+       Stay in the loop – Get relevant updates curated just for 
+      </div>
+      <div class="footer-row">
+        <span>Already have an account? <a href="/login.html" class="login-link">Login</a></span>
+        <button type="submit" class="next-btn" disabled>Next</button>
+      </div>
+    </form>
+  </div>
+  </div>
+ 
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+  <script src="/JS/role-based-show-hide.js"></script>
+   <script>
+    // Gender radio selection styling
+    document.querySelectorAll('.gender-radio').forEach(function(item) {
+      item.onclick = function() {
+        document.querySelectorAll('.gender-radio').forEach(function(i) {
+          i.classList.remove('selected');
+          i.querySelector('input').checked = false;
+        });
+        item.classList.add('selected');
+        item.querySelector('input').checked = true;
+      };
+    });
+    // Enable the Next button once all required fields & checkbox are filled
+    const form = document.querySelector('form');
+    const nextBtn = document.querySelector('.next-btn');
+    form.oninput = function() {
+      // Simple validation check (can be made more robust)
+      const allFilled = Array.from(form.querySelectorAll('[required]')).every(i=>i.value.trim());
+      const checked = form.querySelector('input[type="checkbox"]').checked;
+      if(allFilled && checked) {
+        nextBtn.disabled = false;
+        nextBtn.classList.add('active');
+      } else {
+        nextBtn.disabled = true;
+        nextBtn.classList.remove('active');
+      }
+    }
+  </script>
+
+</html>

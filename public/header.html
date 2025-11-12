@@ -1,0 +1,70 @@
+<!-- header.html -->
+<nav class="navbar navbar-expand-lg navbar-light border-bottom bg-white fixed-top">
+  <div class="container-fluid px-3">
+    <div class="d-flex align-items-center w-100 mx-5">
+      <a class="navbar-brand me-2" href="/index.html">
+        <img style="height:54px;width:54px;" src="/images/aronofy logo.png" alt="Aronofy Logo" />
+      </a>
+
+      <!-- Search (optional) -->
+      <div class="flex-grow-1 mx-2 d-none d-lg-block">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2 rounded-pill" type="search" placeholder="Search" aria-label="Search" />
+          <button class="btn btn-outline-danger rounded-pill" type="submit">Search</button>
+        </form>
+      </div>
+
+      <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav d-flex gap-3 ms-auto mb-2 mb-lg-0 align-items-lg-center">
+        <li class="nav-item"><a class="nav-link px-3" href="/intern.html">Internships</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/job.html">Jobs</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle px-3" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">More</a>
+          <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+            <li><a class="dropdown-item" href="#">Option 1</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Login / User area (script will update this) -->
+      <div id="navbar-login-area" class="ms-auto d-flex align-items-center me-5">
+        <a href="/login.html">
+          <button class="btn btn-primary rounded-pill" type="button" id="loginBtn">Login</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Offcanvas Right: Account Panel -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="accountOffcanvas" aria-labelledby="accountOffcanvasLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title d-flex align-items-center gap-2" id="accountOffcanvasLabel">
+      <span id="offcanvasUserName">User</span>
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <div class="list-group">
+      <!-- add id to this anchor -->
+      <a id="offcanvasProfileLink"  class="list-group-item list-group-item-action">My Profile</a>
+       <a id="offcanvasApplicationsLink" href="/my-application.html" class="list-group-item list-group-item-action">
+        My Applications
+      </a>
+       <a id="offcanvasApplicationsLink1" href="/received-application.html" class="list-group-item list-group-item-action">
+        Received Applications
+      </a>
+      <button class="list-group-item list-group-item-action text-start" id="offcanvasLogoutBtn">Logout</button>
+    </div>
+  </div>
+</div>
+
+                                                                                                                       

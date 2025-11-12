@@ -1,0 +1,126 @@
+<!-- candidate-profile.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Complete Candidate Profile</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/CSS/style.css" />
+  <style>
+    /* small, focused responsive tweaks */
+    body { padding-top: 88px; }
+    .card { border-radius: 12px; }
+    .form-label { font-weight: 600; }
+    #resumeLabel a { text-decoration: underline; }
+    @media (min-width: 1400px) {
+      .container-max { max-width: 1100px; }
+    }
+    /* improve file input touch target on mobile */
+    input[type="file"] { padding: .38rem .5rem; }
+  </style>
+</head>
+<body>
+
+  <div id="header"></div>
+
+  <main class="container container-max">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <div class="d-flex align-items-center mb-3">
+              <h4 class="mb-0">Complete Your Candidate Profile</h4>
+              <span id="profileStatus" class="badge ms-3"></span>
+              <div class="ms-auto d-flex gap-2">
+                <a href="/candidate-profile-view.html" class="btn btn-outline-secondary btn-sm">View Profile</a>
+              </div>
+            </div>
+
+            <form id="candidateProfileForm" enctype="multipart/form-data" novalidate>
+              <div class="row gx-3 gy-3">
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Full Name*</label>
+                  <input name="fullName" class="form-control" required />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Email</label>
+                  <input name="email" type="email" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Phone</label>
+                  <input name="phone" class="form-control" inputmode="tel" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Date of Birth</label>
+                  <input name="dob" type="date" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Current Designation</label>
+                  <input name="currentDesignation" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Experience (years)</label>
+                  <input name="experienceYears" class="form-control" inputmode="numeric" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Location / City</label>
+                  <input name="location" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <label class="form-label">Education</label>
+                  <input name="education" class="form-control" />
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Skills (comma separated)</label>
+                  <input name="skills" class="form-control" placeholder="e.g. JavaScript, React, Node.js" />
+                </div>
+
+                <div class="col-12 col-md-8">
+                  <label class="form-label">LinkedIn URL</label>
+                  <input name="linkedin" type="url" class="form-control" />
+                </div>
+
+                <div class="col-12 col-md-4">
+                  <label class="form-label">Resume (pdf/doc/docx/txt)</label>
+                  <input name="resume" type="file" accept=".pdf,.doc,.docx,.txt" class="form-control" />
+                  <div id="resumeLabel" class="small text-muted mt-1"></div>
+                </div>
+
+                <div class="col-12 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-primary">Save Profile</button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+  <script src="/JS/header.js"></script>
+  <script src="/JS/site-header.js"></script>
+  <script src="/JS/candidate-profile.js" defer></script>
+  <script src="/JS/auth-gate.js" defer></script>
+   <script src="/JS/work.js"></script>
+   <script src="/JS/footer.js"></script>
+   <script src="/JS/role-based-show-hide.js"></script>
+<script src="/JS/apply-internship-fatch"></script>
+
+
+</body>
+</html>

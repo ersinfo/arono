@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
+  <link rel="icon" href="/images/aronofy logo.png" type="image/png">
+  <link rel="stylesheet" href="/CSS/style.css">
+  <link rel="stylesheet" href="/CSS/media.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light border-bottom bg-white fixed-top">
+    <div class="container-fluid px-3">
+      <div class="d-flex align-items-center w-100 mx-5">
+        <!-- Logo -->
+        <a class="navbar-brand me-2" href="index.html">
+          <img style="height:54px;width:54px;" src="/images/aronofy logo.png" alt="Aronofy Logo">
+        </a>
+        <!-- Toggler -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav d-flex gap-3 ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link px-3" href="/intern.html">Internships</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="/job.html">Jobs</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle px-3" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">More</a>
+            <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+              <li><a class="dropdown-item" href="#">Option 1</a></li>
+              <li><a class="dropdown-item" href="#">Option 2</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="login-body">
+    <div class="login-container">
+      <h2>Log in</h2>
+      <form id="loginForm" autocomplete="off">
+        <button class="social-btn google" type="button">
+          <i class="fa-brands fa-google"></i>
+          Continue with Google
+        </button>
+        <button class="social-btn linkedIn" type="button">
+          <i class="fa-brands fa-linkedin-in"></i>
+          Login with LinkedIn
+        </button>
+
+        <div class="separator"><b>Or login with email</b></div>
+
+        <div class="input-field">
+          <input id="login-email" name="email" type="email" placeholder="Email Id" required />
+          <span style="position:absolute;right:12px;top:11px;color:#ffcc80;font-size:12px;">Login via OTP</span>
+        </div>
+        <div class="input-field">
+          <input id="login-password" name="password" type="password" placeholder="Enter Your Password" required />
+          <span class="icon-visibility">&#128065;</span>
+        </div>
+
+        <!-- hidden role (add this) -->
+        <!-- <input type="hidden" id="login-role" name="role" value="candidate" /> -->
+
+        <a href="#" class="forgot-link">Forgot password?</a>
+        <button type="submit" class="login-btn btn-danger">Login</button>
+
+        <div class="bottom-text">
+          Don't have an account? <a href="signup.html">Sign up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script></script>
+<script src="/JS/login.js" ></script>
+</body>
+
+</html>
